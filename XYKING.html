@@ -1,39 +1,39 @@
-<!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>CPM 工具箱</title>
-<style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:"PingFang SC","Microsoft YaHei",sans-serif}
-body{background:#0a0a0a;color:#00f0d0;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:15px}
-.container{background:#0f1419;width:100%;max-width:420px;padding:30px 20px;border-radius:20px;box-shadow:0 0 30px rgba(0,240,208,0.15);border:1px solid rgba(0,240,208,0.2);position:relative}
-.container::before{content:"";position:absolute;top:60px;left:20px;right:20px;height:2px;background:linear-gradient(90deg,transparent,#00f0d0,transparent)}
-.title{text-align:center;font-size:32px;font-weight:900;margin-bottom:30px;color:#00f0d0;letter-spacing:2px;text-shadow:0 0 8px rgba(0,240,208,0.6)}
-.author{text-align:center;font-size:12px;color:#00a090;margin-bottom:30px;line-height:1.4;opacity:.8}
-.page{display:none;animation:fadeIn .3s ease forwards}
-.page.active{display:block}
-@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
-.input-box{margin-bottom:20px}
-.input-box label{display:block;margin-bottom:8px;font-size:14px;color:#00f0d0;font-weight:500}
-.input-box input{width:100%;padding:14px 16px;background:#121a20;border:1px solid rgba(0,240,208,0.3);border-radius:16px;color:#00f0d0;outline:none;font-size:15px;transition:.2s}
-.input-box input:focus{border-color:#00f0d0;box-shadow:0 0 10px rgba(0,240,208,0.2)}
-.btn{width:100%;padding:15px;background:#00f0d0;border:none;border-radius:16px;color:#0a0a0a;font-weight:bold;font-size:15px;margin-top:10px;cursor:pointer;transition:.2s;box-shadow:0 0 12px rgba(0,240,208,0.3)}
-.btn:hover{background:#00d0b0;transform:translateY(-1px);box-shadow:0 0 16px rgba(0,240,208,0.5)}
-.btn-gray{background:#121a20;color:#00f0d0;border:1px solid rgba(0,240,208,0.3);box-shadow:none}
-.btn-gray:hover{background:#162028;border-color:#00f0d0}
-.btn-small{padding:8px 12px;font-size:12px;margin-top:0}
-.func{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:25px}
-.func button{padding:12px;background:#121a20;border:1px solid rgba(0,240,208,0.3);border-radius:14px;color:#00f0d0;font-size:14px;cursor:pointer;transition:.2s;position:relative;overflow:hidden}
-.func button::after{content:"";position:absolute;bottom:0;left:0;right:0;height:1px;background:repeating-linear-gradient(90deg,#00f0d0,#00f0d0 4px,transparent 4px,transparent 8px);opacity:.5}
-.func button:hover{background:#00f0d0;color:#0a0a0a;border-color:#00f0d0}
-.funcContent{animation:fadeIn .25s ease}
-.log-box{margin-top:25px;padding:15px;background:#121a20;border-radius:14px;min-height:80px;font-size:14px;line-height:1.5;border:1px solid rgba(0,240,208,0.2);position:relative}
-.log-box::after{content:"";position:absolute;top:0;left:0;right:0;bottom:0;border:1px dashed rgba(0,240,208,0.15);border-radius:14px;pointer-events:none}
-.card-item{padding:10px;background:#121a20;border:1px solid rgba(0,240,208,0.2);border-radius:10px;margin-bottom:8px;font-size:13px;display:flex;justify-content:space-between;align-items:center}
-.card-used{color:#ff4060}
-.card-expired{color:#ffaa00}
-.card-valid{color:#00f0a0}
+<！doctype 超文本标记语言>
+<超文本标记语言 朗="zh-CN">
+<头>
+<元 字符集="UTF-8">
+<元名称="视口"内容="宽度=设备宽度，初始比例=1。0">
+<标题>CPM工具箱</标题>
+<风格>
+*{边距：0；填充：0；框大小：边框；字体系列："“平方SC”、“微软雅黑”、无衬线}{边距：0；填充：0；框大小：边框；字体系列："“平方SC”、“微软雅黑”、无衬线}
+""平方s{background：#0a0a0a；颜色：#00f0d0；最小高度：100vh；显示：柔性；对齐项目：居中；对齐内容：居中；填充：15px}
+。容器{background：#0f1419；宽度：100%；最大宽度：420px；填充：30px 20px；边界半径：20px；框阴影：0030px rgba(0，240，208，0.15)；边界：1px实心rgba(0，240，208，0.2)；位置：相对}
+.container::before{content:"";position:absolute;top:60px;left:20px;right:20px;height:2px;background:linear-gradient(90deg,transparent,#00f0d0,transparent)}container::before{content:"";position:absolute;top:60px;left:20px;right:20px;height:2px;background:linear-gradient(90deg,transparent,#00f0d0,transparent)}
+。标题{text-align：居中；font-size:32px；字体粗细：900；下边距：30px；颜色：#00f0d0；字母间距：2px；文本阴影：008px rgba(0,240,208,0.6)}
+。作者{text-align:center；font-size:12px；color：#00a090；bargin-bottom:30px；行高：1.4；不透明度：.8}
+.page{显示：无；动画：淡入.3s快进}page{显示：无；动画：淡入.3s快进}
+。页。活动的{display:block}页面。活动的{display:block}
+@keyframes fadein{从{opacity:0；transform:translateY(10px)}到{opacity:1；transform:translateY(0)}}
+。输入框{margin-bottom:20px}输入框{margin-bottom:20px}
+。输入框标签{display:block；bargin-bottom:8px；font-size:14px；color：#00f0d0；font-weight:500}
+.输入框输入{宽度：100%；填充：14px16px；背景：#121a20；边框：1px实心rgba(0，240，208，0.3)；边框半径：16px；颜色：#00f0d0；轮廓：无；字体大小：15px；过渡：.2s}输入框输入{宽度：100%；填充：14px16px；背景：#121a20；边框：1px实心rgba(0，240，208，0.3)；边框半径：16px；颜色：#00f0d0；轮廓：无；字体大小：15px；过渡：.2s}
+.输入框输入：焦点{边框颜色：#00f0d0；框阴影：0010px rgba(0,240,208,0.2)}输入框输入：焦点{边框颜色：#00f0d0；框阴影：0010px rgba(0,240,208,0.2)}
+.btn{width:100%;padding:15px;background:#00f0d0;border:none;border-radius:16px;color:#0a0a0a;font-weight:bold;font-size:15px;margin-top:10px;cursor:pointer;transition:.2s;box-shadow:0012px rgba(0,240,208,0.3)}BTN{宽度：100%；padding:15px；背景：#00f0d0；边界：没有一个；边界半径：16px；颜色：#0a0a0a；字体粗细：大胆的；字体大小：15PX；上边距：10px；光标：指针；过渡：.2s；箱形阴影：0012PX RGBA(0,240,208,0.3)}
+.btn：悬挂{background：#00d0b0；转换：translateY(-1px)；框阴影：0016px rg ba(0，240，208，0.5)}
+.btn-灰色{background：#121a20；color：#00f0d0；边框：1px实心rgba(0，240，208，0.3)；长方体阴影：没有一个}
+.btn-灰色：盘旋{background：#162028；border-color：#00f0d0}
+.btn-small{填充：8px12px；字体大小：12px；上边距：0}
+.func{显示：网格；网格模板列：1fr1fr；间距：12px；页边距：25px}
+.Func按钮{填充：12px；背景：#121a20；边框：1px固体rgba(0，240，208，0.3)；边框半径：14px；颜色：#00f0d0；字体大小：14px；光标：指针；过渡：.2s；位置：相对；溢出：隐藏}
+.Func按钮：：在{content：""之后；位置：绝对；底部：0；左侧：0；右侧：0；高度：1px；背景：重复线性梯度(90度，#00f0d0，#00f0d04px，透明4px，透明8px)；不透明度：0.5}
+。功能按钮：悬停{background：#00f0d0；color：#0a0a0a；border-color：#00f0d0}
+.funcContent{动画：淡入.25s轻松}
+.log框{上边距:25PX；填料：15PX；背景：#121a20；边界半径：14px；最小高度：80px；font-size:14PX；线-高度:1.5；边框:1PX 固体 RGBA(0，240，208，0.2)；位置:相对的}
+。日志框：：在{content：""之后；位置：绝对；顶部：0；左侧：0；右侧：0；底部：0；边框：1px虚线rgba(0，240，208，0.15)；边界半径：14px；指针事件：无}
+。卡片项目{padding:10PX；背景：#121a20；边框：1px固体rgba(0，240，208，0.2)；边界半径：10px；底边距：8px；font-size:13px；显示：flex；对齐内容：间距；对齐项目：居中}
+.用卡的{color：#ff4060}
+.卡过期{color：#ffaa00}
+.卡有效{color：#00f0a0}
 .success{color:#00f0a0;font-weight:500}
 .error{color:#ff4060;font-weight:500}
 .info{color:#00f0d0;font-weight:500}
