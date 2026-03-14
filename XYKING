@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>CPM 工具箱</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:"PingFang SC","Microsoft YaHei",sans-serif}
+body{background:#0a0a0a;color:#00f0d0;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:15px}
+.container{background:#0f1419;width:100%;max-width:420px;padding:30px 20px;border-radius:20px;box-shadow:0 0 30px rgba(0,240,208,0.15);border:1px solid rgba(0,240,208,0.2);position:relative}
+.container::before{content:"";position:absolute;top:60px;left:20px;right:20px;height:2px;background:linear-gradient(90deg,transparent,#00f0d0,transparent)}
+.title{text-align:center;font-size:32px;font-weight:900;margin-bottom:30px;color:#00f0d0;letter-spacing:2px;text-shadow:0 0 8px rgba(0,240,208,0.6)}
+.author{text-align:center;font-size:12px;color:#00a090;margin-bottom:30px;line-height:1.4;opacity:.8}
+.page{display:none;animation:fadeIn .3s ease forwards}
+.page.active{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.input-box{margin-bottom:20px}
+.input-box label{display:block;margin-bottom:8px;font-size:14px;color:#00f0d0;font-weight:500}
+.input-box input{width:100%;padding:14px 16px;background:#121a20;border:1px solid rgba(0,240,208,0.3);border-radius:16px;color:#00f0d0;outline:none;font-size:15px;transition:.2s}
+.input-box input:focus{border-color:#00f0d0;box-shadow:0 0 10px rgba(0,240,208,0.2)}
+.btn{width:100%;padding:15px;background:#00f0d0;border:none;border-radius:16px;color:#0a0a0a;font-weight:bold;font-size:15px;margin-top:10px;cursor:pointer;transition:.2s;box-shadow:0 0 12px rgba(0,240,208,0.3)}
+.btn:hover{background:#00d0b0;transform:translateY(-1px);box-shadow:0 0 16px rgba(0,240,208,0.5)}
+.btn-gray{background:#121a20;color:#00f0d0;border:1px solid rgba(0,240,208,0.3);box-shadow:none}
+.btn-gray:hover{background:#162028;border-color:#00f0d0}
+.btn-small{padding:8px 12px;font-size:12px;margin-top:0}
+.func{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:25px}
+.func button{padding:12px;background:#121a20;border:1px solid rgba(0,240,208,0.3);border-radius:14px;color:#00f0d0;font-size:14px;cursor:pointer;transition:.2s;position:relative;overflow:hidden}
+.func button::after{content:"";position:absolute;bottom:0;left:0;right:0;height:1px;background:repeating-linear-gradient(90deg,#00f0d0,#00f0d0 4px,transparent 4px,transparent 8px);opacity:.5}
+.func button:hover{background:#00f0d0;color:#0a0a0a;border-color:#00f0d0}
+.funcContent{animation:fadeIn .25s ease}
+.log-box{margin-top:25px;padding:15px;background:#121a20;border-radius:14px;min-height:80px;font-size:14px;line-height:1.5;border:1px solid rgba(0,240,208,0.2);position:relative}
+.log-box::after{content:"";position:absolute;top:0;left:0;right:0;bottom:0;border:1px dashed rgba(0,240,208,0.15);border-radius:14px;pointer-events:none}
+.card-item{padding:10px;background:#121a20;border:1px solid rgba(0,240,208,0.2);border-radius:10px;margin-bottom:8px;font-size:13px;display:flex;justify-content:space-between;align-items:center}
+.card-used{color:#ff4060}
+.card-expired{color:#ffaa00}
+.card-valid{color:#00f0a0}
+.success{color:#00f0a0;font-weight:500}
+.error{color:#ff4060;font-weight:500}
+.info{color:#00f0d0;font-weight:500}
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="title">CPM 工具箱</div>
+  <div class="author">作者：谢余 2573729818<br>版本 3.0｜功能：刷皇冠+改账号+重置密码+找回密码</div>
+
+  <div class="page active" id="cardPage">
+    <div class="input-box"><label>卡密</label><input id="card_key" placeholder="请输入卡密（格式：XXXX-XXXX-XXXX）"></div>
+    <button class="btn" onclick="run(0)">验证卡密</button>
+    <button class="btn btn-gray" onclick="run(1)">管理员入口</button>
+  </div>
+
+  <div class="page" id="adminPage">
+    <div class="input-box"><label>管理员密码</label><input type="password" id="admin_pwd" placeholder="请输入管理员密码"></div>
+    <button class="btn" onclick="run(2)">验证管理员</button>
+    <button class="btn btn-gray" onclick="run(3)">返回</button>
+</div>
+
+  <div class="page" id="genCardPage">
+    <div class="input-box"><label>生成数量</label><input type="number" id="gen_count" value="1" min="1"></div>
+    <div class="input-box"><label>有效期（天）</label><input type="number" id="gen_days" value="30" min="1"></div>
+    <button class="btn" onclick="run(4)">生成卡密</button>
+    <div style="display:flex;gap:10px">
+      <button class="btn btn-gray" style="flex:1" onclick="run(5)">卡密管理</button>
+      <button class="btn btn-gray" style="flex:1" onclick="run(6)">退出管理</button>
+</div>
+    <div class="log-box" id="genLog" style="margin-top:15px;min-height:60px"></div>
+</div>
+
+  <div class="page" id="manageCardPage">
+    <div style="display:flex;gap:10px;margin-bottom:15px">
+      <button class="btn" style="flex:1" onclick="run(7)">导出卡密</button>
+      <button class="btn btn-gray" onclick="run(8)">清空全部</button>
+</div>
+<div id="cardlist"style="max-height:300px；overflow-y:auto；padding-right:5px"></div>
+<div style="display:flex；gap:10px；margin-top:10px">
+<button class="btn btn-gray"style="flex:1"onclick="run(9)">生成卡密</button>
+<button class="btn btn-gray"onclick="run(10)">退出管理</button>
+</div>
+</div>
+
+<div class="page"id="loginpage">
+<div class="input-box"><label>邮箱</label><input id="login_email"placeholder="请输入登录邮箱"></div>
+<div class="input-box"><label>密码</label><input type="password"id="login_pwd"placeholder="请输入密码"></div>
+<button class="btn"onclick="run(11)">登录账号</button>
+<button class="btn btn-gray"onclick="run(12)">忘记密码</button>
+</div>
+
+<div class="page"id="funcPage">
+<div class="func">
+<button onclick="run(13)">刷皇冠</button>
+<button onclick="run(14)">改邮箱</button>
+<button onclick="run(15)">修改密码</button>
+</div>
+<div id="crown"class="funcContent"><button class="btn"onclick="run(16)">一键刷皇冠等级</button></div>
+<div id="email"class="funcContent"style="display:none；">
+<div class="input-box"><label>新邮箱</label><input id="new_email"placeholder="请输入新邮箱"></div>
+<button class="btn"onclick="run(17)">修改邮箱</button>
+</div>
+<div ID="pwd"class="funcContent"style="display:none；">
+<div class="input-box"><label>新密码</label><input type="password"id="new_pwd"placeholder="至少6位"></di v>
+<button class="btn"onclick="run(18)">修改密码</button>
+</div>
+</div>
+
+<div class="page"id="forgetPage">
+<div class="input-box"><label>输入邮箱</label><input id="fg_email"placeholder="接收重置邮件"></div>
+<button class="btn"onclick="run(19)">发送重置邮件</button>
+<button class="btn btn-gray"onclick="run(20)">返回登录</button>
+</div>
+
+<div class="log-box"id="log"></div>
+</div>
+
+<script>
+Const ADMIN_PASSWORD="XYB829818"；
+设isAdmin=false；
+让cards=JSON.Parse(localStorage.getitem("cpm_cards"))||[]；
+Const logbox=document.getElementById("log")；
+
+Const pageId={
+0："cardPage"，1："AdminPage"，2："genCardPage"，3："manageCardPage"，
+4："loginpage"，5："funcPage"，6："forgetPage"，7："crown"，8："email"，9："pwd"
+};
+
+函数showpage(idx){
+文件。querySelectorAll(".页")。foreach(p=>p.classList.Remove("active"))；
+Const el=document.getElementById(pageIds[idx])；
+if(el)el.classList.add("active")；
+if(idx===3)renderCardList()；
+}
+
+函数showFunc(idx){
+文件。querySelectorAll(".funcContent").foreach(f=>f.风格。display="none")；
+Const el=document.getElementById(pageIds[idx])；
+if(el)el.style.display="block"；
+}
+
+功能显示(消息，类型){
+logBox.innerHTML='<div class="${type}">${msg}</div>'；
+}
+
+函数generateCard(){
+Const cs="ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"；
+设r=""；
+for(让i=0；i<4；i++)r+=cs[Math.loor(Math.random()*cs。长度)]；
+R+="-"；
+for(让i=0；i<4；i++)r+=cs[Math.loor(Math.random()*cs。长度)]；
+R+="-"；
+for(让i=0；i<4；i++)r+=cs[Math.loor(Math.random()*cs。长度)]；
+返回r；
+}
+
+函数renderCardList(){
+如果(！isAdmin){show("❌ 无权限操作"，"error")；return；}
+Const el=document.getElementById("cardlist")；
+如果(！cards.length){el.innerHTML='<div class="info">暂无卡密</div>'；return；}
+el.innerHTML=cards.map((c，i)=>{
+Const exp=c.expire<Date.now()；
+Const CLS=c.习惯的？"卡已用"：经验？"卡已过期“：”卡有效“；
+const txt=c.used？"已使用"：经验？"已过期"："有效"；
+常数时间=新日期(c.expire).toLocaleString()；
+传回'<div class="card-item"><div>${c.key}<br><small>${time}</small></div><div class="${cls}">${txt}</div><button class="btn btn-small btn-gray"onclick="delCard(${i})">删除</button></div>'；
+}).join("")；
+}
+
+函数delCard(i){
+if(！isAdmin)返回；
+卡.拼接(i，1)；
+localStorage。setitem("cpm_cards"，JSON.Stringify(cards))；
+renderCardList()；
+}
+
+函数运行(n){
+开关(n){
+案例0：
+常数k=文件.getElementById("card_key").价值。修剪()；
+const card=cards.find(c=>c.key===k&&！c.已用&&c.过期>日期。现在())；
+if(！card){show("卡密无效/已过期/已使用"，"错误")；返回；}
+卡片。used=true；localStorage。setitem("cpm_cards"，JSON.Stringify(卡片))；
+show("✅ 验证成功"，"success")；setTimeout(()=>showpage(4)，800)；
+localStorage。setitem("cpm_cards"，JSON.Stringify(cards))；
+情况1:showpage(1)；break；
+案例2：
+常数p=文件.getElementById("admin_pwd").价值。修剪()；
+if(p===ADMIN_PASSWORD){isAdmin=true；showpage(2)；show("✅ 管理员登录成功"，"成功")；}
+else{show("❌ 密码错误"，"误差")；}
+打破；
+案例3:showpage(0)；break；
+案例4：
+如果(！isAdmin){show("❌ 无权限"，"error")；return；}
+Const cnt=parseInt(文档.getElementById("gen_count")。价值)；
+Const days=parseInt(文档.getElementById("gen_days")。价值)；
+if(isNaN(cnt)||cnt<1||isNaN(天)||天<1){
+文件。getElementById("genLog").innerHTML='<div class="error">输入有效数量和天数</div>'；return；
+      }
+常数ex=日期.now()+天数*86400000；
+常数ns=[]；
+for(让i=0；i<cnt；i++)ns.push({key:generateCard()，expire:ex，used:false})；
+卡片。推(。。。NS)；localStorage。setitem("cpm_cards"，JSON.Stringify(卡片))；
+文件。getElementById("genLog").innerHTML='<div class="success">生成：<br>${ns.map(x=>x.key).join("<br>")}</div>'；
+打破；
+情况5:showpage(3)；break；
+案例6:isAdmin=false；showpage(0)；break；
+案例7：
+if(！isAdmin)返回；
+常量内容=cards.map(c=>'${c.key}|${新日期(c.expire).toLocaleString()}|${c.used？"已使用"：c.expire<Date.now()？"已过期"："有效"}‘).加入("\n")；
+常量Blob=新Blob([内容]，{类型："文本/普通"})；
+常量URL=URL.createObjectURL(blob)；
+Const a=document.createElement("a")；
+一个。href=url；a.download="cards.txt"；a.click()；URL.revokeObjectURL(url)；
+"✅ 已导出"，"成功")；
+打破；
+案例8：
+if(！isAdmin)返回；
+"清空所有卡密？"){cards=[]；localStorage.setitem("cpm_cards"，JSON.使字符串化(卡片))；renderCardList()；show("✅ 已清空"，"成功")；}
+打破；
+案例9:showpage(2)；break；
+案例10:isAdmin=false；showpage(0)；break；
+case11：注册成功(演示))，success")；setTimeout(()=>{showpage(5)；showFunc(7)；}，600)；break；
+案例12:showpage(6)；break；
+情况13:showFunc(7)；break；
+情况14:showFunc(8)；break；
+情况15:showFunc(9)；break；
+案例16:show("🎉 刷皇冠完成(演示)"，"success")；break；
+个案17:show("✅ 修改邮箱成功(演示)")；打破；
+case18:show(✅修改密码成功(演示))，成功”)；中断；
+判例19:show("✅ 已发送重置邮件")，"success")；break；
+案例20:showpage(4)；break；
+  }
+}
+</script>
+</body>
+</html>
